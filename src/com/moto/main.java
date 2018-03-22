@@ -5,17 +5,39 @@
  */
 package com.moto;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author harrisonpepese
  */
 public class main extends javax.swing.JFrame {
-
+    List<modelo> database;
+    List<String> Pcombobox;
+    private void update() throws SQLException{
+        database = modelo.GetAll();
+        Pcombobox = modelo.Getmodel();
+    }
     /**
      * Creates new form main
      */
     public main() {
+        try {
+            update();
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
+        update_table();
     }
 
     /**
@@ -27,6 +49,7 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         inserir_modelo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -47,9 +70,9 @@ public class main extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jSpinner1 = new javax.swing.JSpinner();
+        Nmodelo = new javax.swing.JComboBox<>();
+        Ncor = new javax.swing.JComboBox<>();
+        nquantidade = new javax.swing.JSpinner();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -65,19 +88,17 @@ public class main extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         Custoproducao = new javax.swing.JTextField();
-        lucro = new javax.swing.JTextField();
+        Plucro = new javax.swing.JTextField();
         chassiini = new javax.swing.JTextField();
         chassif = new javax.swing.JTextField();
         Pinsert = new javax.swing.JButton();
         Plimpa = new javax.swing.JButton();
-        consulta_pedido = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Pedidos Ronda");
-        setPreferredSize(new java.awt.Dimension(500, 484));
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -100,10 +121,20 @@ public class main extends javax.swing.JFrame {
         jLabel6.setText("Serie Chassi:");
 
         mInsert.setText("Inserir");
+        mInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mInsertActionPerformed(evt);
+            }
+        });
 
         mlimpar.setText("Limpar");
+        mlimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mlimparActionPerformed(evt);
+            }
+        });
 
-        Mtipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo...", "Street", "On/off Road", "Off Road", "Custom", "Naked", "Sport", " " }));
+        Mtipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo...", "Street", "On/off Road", "Off Road", "Custom", "Naked", "Sport", "Scooter" }));
 
         javax.swing.GroupLayout inserir_modeloLayout = new javax.swing.GroupLayout(inserir_modelo);
         inserir_modelo.setLayout(inserir_modeloLayout);
@@ -177,9 +208,21 @@ public class main extends javax.swing.JFrame {
 
         jLabel9.setText("quantidade:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", " " }));
+        Nmodelo.setModel(new DefaultComboBoxModel(Pcombobox.toArray()));
+        Nmodelo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                NmodeloItemStateChanged(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Preto", "Cinza", "Vermelho", "Azul", "Amarelo", "Laranja" }));
+        Ncor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Preto", "Cinza", "Vermelho", "Azul", "Amarelo", "Laranja" }));
+
+        nquantidade.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50000, 1));
+        nquantidade.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                nquantidadeStateChanged(evt);
+            }
+        });
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Tipo:");
@@ -196,20 +239,20 @@ public class main extends javax.swing.JFrame {
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Serie Chassi:");
 
+        Ptipo.setEditable(false);
         Ptipo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        Ptipo.setEnabled(false);
 
+        Pcilindrada.setEditable(false);
         Pcilindrada.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        Pcilindrada.setEnabled(false);
 
+        Pvcusto.setEditable(false);
         Pvcusto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        Pvcusto.setEnabled(false);
 
+        Pvvenda.setEditable(false);
         Pvvenda.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        Pvvenda.setEnabled(false);
 
+        Pschassi.setEditable(false);
         Pschassi.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        Pschassi.setEnabled(false);
 
         jLabel16.setText("Custo de Producao:");
 
@@ -220,8 +263,18 @@ public class main extends javax.swing.JFrame {
         jLabel19.setText("Chassi final.:");
 
         Pinsert.setText("Finalizar");
+        Pinsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PinsertActionPerformed(evt);
+            }
+        });
 
         Plimpa.setText("Limpar");
+        Plimpa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PlimpaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout inserir_pLayout = new javax.swing.GroupLayout(inserir_p);
         inserir_p.setLayout(inserir_pLayout);
@@ -229,64 +282,70 @@ public class main extends javax.swing.JFrame {
             inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inserir_pLayout.createSequentialGroup()
                 .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createSequentialGroup()
+                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(inserir_pLayout.createSequentialGroup()
+                                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel10))
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(18, 18, 18)))
+                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Ptipo, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Pcilindrada, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Pvcusto, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Pschassi, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Pvvenda)))
+                    .addGroup(inserir_pLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(Pinsert, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(inserir_pLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createSequentialGroup()
+                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(inserir_pLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(Nmodelo, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(inserir_pLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(inserir_pLayout.createSequentialGroup()
+                                    .addGap(57, 57, 57)
+                                    .addComponent(Plimpa, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(inserir_pLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(Custoproducao, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(Plucro, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(inserir_pLayout.createSequentialGroup()
+                                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel18)
+                                                .addComponent(jLabel16))
+                                            .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel19)
+                                .addComponent(chassiini, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                                .addComponent(chassif))))
+                    .addGroup(inserir_pLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(inserir_pLayout.createSequentialGroup()
-                                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(inserir_pLayout.createSequentialGroup()
-                                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel14)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel10))
-                                        .addGap(12, 12, 12))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createSequentialGroup()
-                                        .addComponent(jLabel13)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Ptipo, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Pcilindrada, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Pvcusto, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Pschassi, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Pvvenda)))
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, inserir_pLayout.createSequentialGroup()
-                                .addGap(82, 82, 82)
-                                .addComponent(Pinsert, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(inserir_pLayout.createSequentialGroup()
-                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jSpinner1)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(inserir_pLayout.createSequentialGroup()
-                            .addGap(57, 57, 57)
-                            .addComponent(Plimpa, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(inserir_pLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(Custoproducao, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lucro, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(inserir_pLayout.createSequentialGroup()
-                                    .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel18)
-                                        .addComponent(jLabel16))
-                                    .addGap(0, 105, Short.MAX_VALUE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel19)
-                        .addComponent(chassiini, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                        .addComponent(chassif)))
+                                .addComponent(jLabel8)
+                                .addGap(125, 125, 125)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(inserir_pLayout.createSequentialGroup()
+                                .addComponent(Ncor, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)))))
                 .addContainerGap())
         );
         inserir_pLayout.setVerticalGroup(
@@ -299,9 +358,9 @@ public class main extends javax.swing.JFrame {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Nmodelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Ncor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nquantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -317,7 +376,7 @@ public class main extends javax.swing.JFrame {
                         .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
                             .addComponent(Pvcusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lucro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Plucro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(inserir_pLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(Custoproducao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,36 +410,29 @@ public class main extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Novo Pedido", inserir_p);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Modelo", "Cor", "Quantidade", "Custo Prod", "Lucro", "Chassi Ini.", "Chassi Fin."
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
 
-        javax.swing.GroupLayout consulta_pedidoLayout = new javax.swing.GroupLayout(consulta_pedido);
-        consulta_pedido.setLayout(consulta_pedidoLayout);
-        consulta_pedidoLayout.setHorizontalGroup(
-            consulta_pedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(consulta_pedidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
-        );
-        consulta_pedidoLayout.setVerticalGroup(
-            consulta_pedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(consulta_pedidoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane2.setViewportView(jTable2);
 
-        jTabbedPane1.addTab("Pedidos Realizados", consulta_pedido);
+        jTabbedPane1.addTab("Consultar pedidos", jScrollPane2);
 
         jLabel15.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 0, 0));
@@ -411,11 +463,89 @@ public class main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void update_table(){
+        DefaultTableModel m=(DefaultTableModel) jTable2.getModel();
+        m.setRowCount(0);
+        String query="SELECT * FROM `pedido`";
+        Connection conn;
+        try {
+            conn = Conect.GetConection();
+            Statement stt= conn.createStatement();
+            ResultSet rts=stt.executeQuery(query);
+        while(rts.next()){
+            m.addRow(new Object[]{rts.getString(1),rts.getString(2),rts.getString(3),rts.getString(4),rts.getString(5),rts.getString(6),rts.getString(7),rts.getString(8)});
+        }
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void mInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mInsertActionPerformed
+        modelo novo = new modelo();
+        novo.modelo = Mmodelo.getText();
+        novo.tipo = Mtipo.getSelectedItem().toString();
+        novo.cilindrada = Integer.parseInt(Mcilindrada.getText());
+        novo.V_custo = Double.parseDouble(Mvcusto.getText());
+        novo.V_venda = Double.parseDouble(Mvvenda.getText());
+        novo.S_chassi = Mschassi.getText();
+        try {
+            novo.Insert();
+            update();
+            Nmodelo.setModel(new DefaultComboBoxModel(Pcombobox.toArray()));
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mInsertActionPerformed
+
+    private void mlimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mlimparActionPerformed
+        
+    }//GEN-LAST:event_mlimparActionPerformed
+
+    private void NmodeloItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_NmodeloItemStateChanged
+        int i =Pcombobox.indexOf(Nmodelo.getSelectedItem().toString());
+        modelo var=database.get(i);
+        Pcilindrada.setText(new String(""+var.cilindrada));
+        Pschassi.setText(var.S_chassi);
+        Ptipo.setText(var.tipo);
+        Pvcusto.setText(new String(""+var.V_custo));
+        Pvvenda.setText(new String(""+var.V_venda));
+                // TODO add your handling code here:
+    }//GEN-LAST:event_NmodeloItemStateChanged
+
+    private void nquantidadeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_nquantidadeStateChanged
+        int i =(Integer)nquantidade.getValue();
+        modelo var=database.get(Pcombobox.indexOf(Nmodelo.getSelectedItem().toString()));
+        Custoproducao.setText(new String(""+String.format("%.2f", var.V_custo*i)));
+        Plucro.setText(new String(""+String.format("%.2f",(var.V_venda-var.V_custo)*i)));
+        chassiini.setText(""+var.S_chassi+1);
+        chassif.setText(""+var.S_chassi+i);        // TODO add your handling code here:
+    }//GEN-LAST:event_nquantidadeStateChanged
+
+    private void PinsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PinsertActionPerformed
+        pedido novo=new pedido();
+        novo.modelo=Nmodelo.getSelectedItem().toString();
+        novo.cor=Ncor.getSelectedItem().toString();
+        novo.quantidade=(Integer)nquantidade.getValue();
+        novo.custo=Double.parseDouble(Custoproducao.getText().replace(",","."));
+        novo.lucro=Double.parseDouble(Plucro.getText().replace(",","."));
+        novo.chassi0=chassiini.getText();
+        novo.chassi1=chassif.getText();
+        try {
+            novo.Insert();
+            update_table();
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_PinsertActionPerformed
+
+    private void PlimpaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlimpaActionPerformed
+
+    }//GEN-LAST:event_PlimpaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -455,20 +585,21 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> Mtipo;
     private javax.swing.JTextField Mvcusto;
     private javax.swing.JTextField Mvvenda;
+    private javax.swing.JComboBox<String> Ncor;
+    private javax.swing.JComboBox<String> Nmodelo;
     private javax.swing.JTextField Pcilindrada;
     private javax.swing.JButton Pinsert;
     private javax.swing.JButton Plimpa;
+    private javax.swing.JTextField Plucro;
     private javax.swing.JTextField Pschassi;
     private javax.swing.JTextField Ptipo;
     private javax.swing.JTextField Pvcusto;
     private javax.swing.JTextField Pvvenda;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField chassif;
     private javax.swing.JTextField chassiini;
-    private javax.swing.JPanel consulta_pedido;
     private javax.swing.JPanel inserir_modelo;
     private javax.swing.JPanel inserir_p;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -488,12 +619,11 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField lucro;
+    private javax.swing.JTable jTable2;
     private javax.swing.JButton mInsert;
     private javax.swing.JButton mlimpar;
+    private javax.swing.JSpinner nquantidade;
     // End of variables declaration//GEN-END:variables
 }
