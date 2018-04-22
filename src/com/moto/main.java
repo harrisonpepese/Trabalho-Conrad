@@ -62,10 +62,10 @@ public class main extends javax.swing.JFrame {
         mlimpar = new javax.swing.JButton();
         Mtipo = new javax.swing.JComboBox<>();
         Mmodelo = new javax.swing.JTextField();
-        Mvcusto = new javax.swing.JTextField();
         Mschassi = new javax.swing.JTextField();
-        Mvvenda = new javax.swing.JTextField();
         Mcilindrada = new javax.swing.JTextField();
+        Mvcusto = new javax.swing.JFormattedTextField();
+        Mvvenda = new javax.swing.JFormattedTextField();
         inserir_p = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -93,6 +93,7 @@ public class main extends javax.swing.JFrame {
         chassif = new javax.swing.JTextField();
         Pinsert = new javax.swing.JButton();
         Plimpa = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
@@ -136,12 +137,21 @@ public class main extends javax.swing.JFrame {
 
         Mtipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione o tipo...", "Street", "On/off Road", "Off Road", "Custom", "Naked", "Sport", "Scooter" }));
 
+        Mvcusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+
+        Mvvenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+
         javax.swing.GroupLayout inserir_modeloLayout = new javax.swing.GroupLayout(inserir_modelo);
         inserir_modelo.setLayout(inserir_modeloLayout);
         inserir_modeloLayout.setHorizontalGroup(
             inserir_modeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inserir_modeloLayout.createSequentialGroup()
                 .addGroup(inserir_modeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(inserir_modeloLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(mInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(76, 76, 76)
+                        .addComponent(mlimpar))
                     .addGroup(inserir_modeloLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addGroup(inserir_modeloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -156,14 +166,9 @@ public class main extends javax.swing.JFrame {
                             .addComponent(Mschassi, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Mtipo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Mmodelo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Mvcusto)
-                            .addComponent(Mvvenda)
-                            .addComponent(Mcilindrada, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(inserir_modeloLayout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(mInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76)
-                        .addComponent(mlimpar)))
+                            .addComponent(Mvcusto, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Mcilindrada, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Mvvenda))))
                 .addContainerGap(144, Short.MAX_VALUE))
         );
         inserir_modeloLayout.setVerticalGroup(
@@ -319,17 +324,15 @@ public class main extends javax.swing.JFrame {
                                 .addGroup(inserir_pLayout.createSequentialGroup()
                                     .addGap(57, 57, 57)
                                     .addComponent(Plimpa, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(inserir_pLayout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(Custoproducao, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Plucro, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(inserir_pLayout.createSequentialGroup()
-                                            .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel18)
-                                                .addComponent(jLabel16))
-                                            .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Custoproducao, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Plucro, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(inserir_pLayout.createSequentialGroup()
+                                        .addGroup(inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel18)
+                                            .addComponent(jLabel16))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inserir_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel19)
                                 .addComponent(chassiini, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
@@ -432,7 +435,28 @@ public class main extends javax.swing.JFrame {
         jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane2.setViewportView(jTable2);
 
-        jTabbedPane1.addTab("Consultar pedidos", jScrollPane2);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 467, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 362, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(34, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("tab4", jPanel1);
 
         jLabel15.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 0, 0));
@@ -485,8 +509,8 @@ public class main extends javax.swing.JFrame {
         novo.modelo = Mmodelo.getText();
         novo.tipo = Mtipo.getSelectedItem().toString();
         novo.cilindrada = Integer.parseInt(Mcilindrada.getText());
-        novo.V_custo = Double.parseDouble(Mvcusto.getText());
-        novo.V_venda = Double.parseDouble(Mvvenda.getText());
+        novo.V_custo = Double.parseDouble(Mvcusto.getText().replace(".","").replace(",", "."));
+        novo.V_venda = Double.parseDouble(Mvvenda.getText().replace(".","").replace(",", "."));
         novo.S_chassi = Mschassi.getText();
         try {
             novo.Insert();
@@ -583,8 +607,8 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JTextField Mmodelo;
     private javax.swing.JTextField Mschassi;
     private javax.swing.JComboBox<String> Mtipo;
-    private javax.swing.JTextField Mvcusto;
-    private javax.swing.JTextField Mvvenda;
+    private javax.swing.JFormattedTextField Mvcusto;
+    private javax.swing.JFormattedTextField Mvvenda;
     private javax.swing.JComboBox<String> Ncor;
     private javax.swing.JComboBox<String> Nmodelo;
     private javax.swing.JTextField Pcilindrada;
@@ -619,6 +643,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
